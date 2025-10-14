@@ -1,0 +1,8 @@
+venv/
+.idea/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+data/*.json  # Игнорируем данные
+poetry.lock  # Если фиксируете, удалите эту строку
