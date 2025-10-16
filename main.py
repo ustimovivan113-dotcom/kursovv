@@ -14,6 +14,10 @@ def user_interaction():
         print(f"Ошибка при получении вакансий: {e}")
         return
 
+    # Проверяем, является ли vacancies_data словарем с ключом "items"
+    if isinstance(vacancies_data, dict) and "items" in vacancies_data:
+        vacancies_data = vacancies_data["items"]
+
     if not vacancies_data:
         print("Вакансии не найдены.")
         return
@@ -23,7 +27,7 @@ def user_interaction():
 
     # Сохраняем в JSON
     saver = JSONSaver()
-    for vacancy_data in vacancies_data:  # Сохраняем оригинальные данные из API
+    for vacancy_data in vacancies_data:
         saver.add_vacancy(vacancy_data)
 
     # Фильтрация, сортировка, выбор топ-N
