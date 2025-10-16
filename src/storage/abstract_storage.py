@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List, Dict, Optional, Any
 
+
 class AbstractStorage(ABC):
     """Абстрактный класс для хранения (файлы/БД)."""
 

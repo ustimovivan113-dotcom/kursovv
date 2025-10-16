@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List, Dict
 
+
 class AbstractAPI(ABC):
     """Абстрактный класс для работы с API вакансий (наследуется для конкретных платформ)."""
 
