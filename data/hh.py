@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+
 class Parser(ABC):
     @abstractmethod
     def save(self, data):
@@ -9,8 +10,10 @@ class Parser(ABC):
     def load(self):
         pass
 
+
 # Обновленный hh.py
 import requests
+
 
 class HH(Parser):
     def __init__(self, file_worker):

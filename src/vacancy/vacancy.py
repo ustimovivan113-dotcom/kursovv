@@ -1,5 +1,6 @@
 from typing import Optional, List, Dict
 
+
 class Vacancy:
     """Класс вакансии с валидацией и сравнением по зарплате (инкапсуляция)."""
 
@@ -34,4 +35,12 @@ class Vacancy:
     @classmethod
     def cast_to_object_list(cls, data: List[Dict]) -> List['Vacancy']:
         """Конвертация JSON в список Vacancy."""
-        return [cls(v['name'], v['alternate_url'], v.get('salary'), v['snippet'].get('requirement', '') + v['snippet'].get('responsibility', ''), v['employer']['name']) for v in data]
+        return [
+            cls(
+                v['name'],
+                v['alternate_url'],
+                v.get('salary'),
+                (v['snippet'].get('requirement') or '') + (v['snippet'].get('responsibility') or ''),  # Обработка None
+                v['employer']['name']
+            ) for v in data
+        ]
