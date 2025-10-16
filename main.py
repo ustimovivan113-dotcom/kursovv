@@ -1,32 +1,39 @@
 from src.api.hh_api import HeadHunterAPI
-from src.vacancy.vacancy import Vacancy
 from src.storage.json_storage import JSONSaver
+from src.vacancy.vacancy import Vacancy
 from src.utils.utils import filter_vacancies, get_by_salary, sort_vacancies, get_top, print_vacancies
 
-def user_interaction():
-    api = HeadHunterAPI()
-    saver = JSONSaver()
 
-    query = input("Поисковый запрос: ")
-    vacancies_data = api.get_vacancies(query)
+def user_interaction():
+    """Основная функция взаимодействия с пользователем."""
+    keyword = input("Введите поисковый запрос: ")
+    api = HeadHunterAPI()
+    try:
+        vacancies_data = api.get_vacancies(keyword)
+    except Exception as e:
+        print(f"Ошибка при получении вакансий: {e}")
+        return
+
+    if not vacancies_data:
+        print("Вакансии не найдены.")
+        return
+
+    # Конвертируем в объекты Vacancy
     vacancies = Vacancy.cast_to_object_list(vacancies_data)
 
-    for d in vacancies_data:
-        saver.add_vacancy(d)
+    # Сохраняем в JSON
+    saver = JSONSaver()
+    for vacancy_data in vacancies_data:  # Сохраняем оригинальные данные из API
+        saver.add_vacancy(vacancy_data)
 
-    n = int(input("Топ N: "))
-    words = input("Ключевые слова (пробел): ").split()
-    range_str = input("Диапазон зарплат (min-max): ")
+    # Фильтрация, сортировка, выбор топ-N
+    filtered = filter_vacancies(vacancies, [keyword])
+    sorted_vacancies = sort_vacancies(filtered)
+    top_vacancies = get_top(sorted_vacancies, 5)
 
-    filtered = filter_vacancies(vacancies, words)
-    ranged = get_by_salary(filtered, range_str)
-    sorted_v = sort_vacancies(ranged)
-    top = get_top(sorted_v, n)
-    print_vacancies(top)
+    # Вывод результатов
+    print_vacancies(top_vacancies)
 
-    if vacancies_data:
-        saver.delete_vacancy(vacancies_data[0])
-        print("Удалена первая вакансия.")
 
 if __name__ == "__main__":
     user_interaction()

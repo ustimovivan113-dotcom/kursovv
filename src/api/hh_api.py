@@ -2,6 +2,7 @@ import requests
 from typing import List, Dict
 from .abstract_api import AbstractAPI
 
+
 class HeadHunterAPI(AbstractAPI):
     """Класс для интеграции с API HH.ru (наследует AbstractAPI)."""
 

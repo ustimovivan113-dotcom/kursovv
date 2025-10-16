@@ -3,6 +3,7 @@ import os
 from typing import List, Dict, Optional, Any
 from .abstract_storage import AbstractStorage
 
+
 class JSONSaver(AbstractStorage):
     """JSON-коннектор (наследует AbstractStorage)."""
 
